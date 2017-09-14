@@ -41,21 +41,10 @@ def makeWebhookResult(req):
     print("Response:")
     print(speech)
 
-    kik_message = [
-        {
-            "type": "text",
-            "body": "The cost of shipping to " + zone
-        },
-        {
-            "type": "text",
-             "body": " is " + str(cost[zone]) 
-        }
-    ]
-    
     return {
         "speech": speech,
         "displayText": speech,
-        "data": {"kik": kik_message},
+         # "data": data,
         # "contextOut": [],
         "source": "apiai-onlinestore-shipping"
     }
