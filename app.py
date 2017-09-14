@@ -1,13 +1,6 @@
 #!/usr/bin/env python
 
-from __future__ import print_function
-from future.standard_library import install_aliases
-install_aliases()
-
-from urllib.parse import urlparse, urlencode
-from urllib.request import urlopen, Request
-from urllib.error import HTTPError
-
+import urllib
 import json
 import os
 
@@ -26,50 +19,41 @@ def webhook():
     print("Request:")
     print(json.dumps(req, indent=4))
 
-    res = processRequest(req)
-
+    #res = makeWebhookResult(req)
+    res={}
+    
     res = json.dumps(res, indent=4)
-    # print(res)
+    print(res)
     r = make_response(res)
     r.headers['Content-Type'] = 'application/json'
     return r
 
-
-def processRequest(req):
+def makeWebhookResult(req):
     if req.get("result").get("action") != "shippingcost":
         return {}
-    
-    res = makeWebhookResult(req)
-    
-    return res
-
-
-
-
-def makeWebhookResult(req):
     result = req.get("result")
     parameters = result.get("parameters")
     zone = parameters.get("shipping-zone")
-    if zone is None:
-        return None
 
-    speech = "The cost of shipping to " + zone
-    
+    cost = {'Europe':100, 'North America':200, 'South America':300, 'Asia':400, 'Africa':500, 'India':600}
+
+    speech = "The cost of shipping to " + zone + " is " + str(cost[zone]) + " euros."
+
     print("Response:")
     print(speech)
 
     return {
         "speech": speech,
         "displayText": speech,
-        # "data": data,
+         # "data": data,
         # "contextOut": [],
-        "source": "apiai-weather-webhook-sample"
+        "source": "apiai-onlinestore-shipping"
     }
 
 
 if __name__ == '__main__':
     port = int(os.getenv('PORT', 5000))
 
-    print("Starting app on port %d" % port)
+    print "Starting app on port %d" % port
 
-    app.run(debug=False, port=port, host='0.0.0.0')
+    app.run(debug=True, port=port, host='0.0.0.0')
