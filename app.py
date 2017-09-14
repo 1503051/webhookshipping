@@ -1,35 +1,32 @@
-#!/usr/bin/env python
-
-import urllib
+# !/usr/bin/env python
 import json
-import os
+from flask import Flask, request, make_response, jsonify
+from forecast import Forecast, validate_params
 
-from flask import Flask
-from flask import request
-from flask import make_response
-
-# Flask app should start in global layout
-app = Flask(__name__)
+APP = Flask(__name__)
+LOG = APP.logger
 
 
-@app.route('/webhook', methods=['POST'])
+@APP.route('/', methods=['POST'])
 def webhook():
     req = request.get_json(silent=True, force=True)
+    try:
+        action = req.get('result').get('action')
+    except AttributeError:
+        return 'json error'
 
-    print("Request:")
-    print(json.dumps(req, indent=4))
+    if action == 'shippingcost':
+        res = weather(req)
+    else:
+        LOG.error('Unexpected action.')
 
-    res = makeWebhookResult(req)
-    
-    res = json.dumps(res, indent=4)
-    print(res)
-    r = make_response(res)
-    r.headers['Content-Type'] = 'application/json'
-    return r
+    print 'Action: ' + action
+    print 'Response: ' + res
 
-def makeWebhookResult(req):
-    if req.get("result").get("action") != "shippingcost":
-        return {}
+    return make_response(jsonify({'speech': res, 'displayText': res}))
+
+
+def weather(req):
     result = req.get("result")
     parameters = result.get("parameters")
     zone = parameters.get("shipping-zone")
@@ -44,15 +41,10 @@ def makeWebhookResult(req):
     return {
         "speech": speech,
         "displayText": speech,
-         # "data": data,
+        # "data": data,
         # "contextOut": [],
         "source": "apiai-onlinestore-shipping"
     }
 
-
 if __name__ == '__main__':
-    port = int(os.getenv('PORT', 5000))
-
-    print "Starting app on port %d" % port
-
-    app.run(debug=True, port=port, host='0.0.0.0')
+    APP.run(debug=True, host='0.0.0.0')
