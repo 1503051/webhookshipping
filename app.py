@@ -37,9 +37,9 @@ def makeWebhookResult(req):
     speech ="unknow"
     
     branch = parameters.get("branch")
-    any = parameters.get("any")
+    anytxt = parameters.get("any")
     if branch is None:        
-        speech = "The contact information for " + branch + " is " + contact[any]
+        speech = "The contact information for " + branch + " is " + contact[anytxt]
     else:
         speech = "The contact information for " + branch + " is " + contact[branch]
     
