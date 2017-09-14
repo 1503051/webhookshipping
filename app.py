@@ -28,12 +28,12 @@ def webhook():
     return r
 
 def makeWebhookResult(req):
-    if req.get("result").get("action") != "branchcost":
+    if req.get("result").get("action") != "branchcontact":
         return {}
     result = req.get("result")
     parameters = result.get("parameters")
     branch = parameters.get("branch")
-    contact = {'Europe':'Grace Cheng #725', 'North America':'Dahlong Yang #252', 'South America':'Customer #7585', 'Asia':'400', 'Africa':'500', 'India':'600'}    
+    contact = {'Narl':'02-6630-0151', 'Ndl':'03-5726100', 'Nchc':'03-5776085', 'Cic':'03-7777777'}    
     speech = "The cost of shipping to " + branch + " is " + contact[branch]
     
     print("Response:")
@@ -42,7 +42,7 @@ def makeWebhookResult(req):
     return {
         "speech": speech,
         "displayText": speech,
-         # "data": data,
+        # "data": data,
         # "contextOut": [],
         "source": "apiai-onlinestore-shipping"
     }
