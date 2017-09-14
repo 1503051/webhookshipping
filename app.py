@@ -34,7 +34,7 @@ def makeWebhookResult(req):
     parameters = result.get("parameters")
     branch = parameters.get("branch")
     contact = {'Narl':'02-6630-0151', 'Ndl':'03-5726100', 'Nchc':'03-5776085', 'Cic':'03-7777777'}    
-    speech = "The cost of shipping to " + branch + " is " + contact[branch]
+    speech = "The contact information for " + branch + " is " + contact[branch]
     
     print("Response:")
     print(speech)
