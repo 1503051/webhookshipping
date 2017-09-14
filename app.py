@@ -52,7 +52,7 @@ def makeWebhookResult(req):
 
 
 if __name__ == '__main__':
-    port = int(os.getenv('PORT', 5000))
+    port = int(os.getenv('PORT', 3994))
 
     print(port)
 
