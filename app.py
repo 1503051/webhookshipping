@@ -33,7 +33,7 @@ def makeWebhookResult(req):
     result = req.get("result")
     parameters = result.get("parameters")
     
-    contact = {'Narl':'02-6630-0151', 'Ndl':'03-5726100', 'Nchc':'03-5776085', 'Cic':'03-7777777', '1503051':'TEST'}    
+    contact = {'Narl':'02-6630-0151', 'Ndl':'03-5726100', 'Nchc':'03-5776085', 'Cic':'03-7777777', '1503051':'0911111111'}    
     speech ="unknow"
     
     branch = parameters.get("branch")
