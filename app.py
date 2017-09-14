@@ -20,8 +20,8 @@ def webhook():
     else:
         LOG.error('Unexpected action.')
 
-    print 'Action: ' + action
-    print 'Response: ' + res
+    print("Action:" +action)
+    print("Response:" + res)
 
     return make_response(jsonify({'speech': res, 'displayText': res}))
 
