@@ -1,37 +1,39 @@
-# !/usr/bin/env python
+#!/usr/bin/env python
+
 import urllib
 import json
 import os
 
-from flask import Flask, request, make_response, jsonify
+from flask import Flask
+from flask import request
+from flask import make_response
 
-APP = Flask(__name__)
-LOG = APP.logger
+# Flask app should start in global layout
+app = Flask(__name__)
 
 
-@APP.route('/', methods=['POST'])
+@app.route('/webhook', methods=['POST'])
 def webhook():
     req = request.get_json(silent=True, force=True)
-    try:
-        action = req.get('result').get('action')
-    except AttributeError:
-        return 'json error'
 
-    if action == 'shippingcost':
-        res = weather(req)
-    else:
-        LOG.error('Unexpected action.')
+    print("Request:")
+    print(json.dumps(req, indent=4))
 
-    print("Action:" +action)
-    print("Response:" + res)
+    #res = makeWebhookResult(req)
+    res={}
+    
+    res = json.dumps(res, indent=4)
+    print(res)
+    r = make_response(res)
+    r.headers['Content-Type'] = 'application/json'
+    return r
 
-    return make_response(jsonify({'speech': res, 'displayText': res}))
-
-
-def weather(req):
+def makeWebhookResult(req):
+    if req.get("result").get("action") != "shippingcost":
+        return {}
     result = req.get("result")
     parameters = result.get("parameters")
-    zone = parameters.get("Shipping-zone")
+    zone = parameters.get("shipping-zone")
 
     cost = {'Europe':100, 'North America':200, 'South America':300, 'Asia':400, 'Africa':500, 'India':600}
 
@@ -43,14 +45,15 @@ def weather(req):
     return {
         "speech": speech,
         "displayText": speech,
-        # "data": data,
+         # "data": data,
         # "contextOut": [],
         "source": "apiai-onlinestore-shipping"
     }
 
+
 if __name__ == '__main__':
     port = int(os.getenv('PORT', 5000))
 
-    print("Starting app on port %d" % port)
+    print "Starting app on port %d" % port
 
-    APP.run(debug=False, port=port, host='0.0.0.0')   
+    app.run(debug=True, port=port, host='0.0.0.0')
