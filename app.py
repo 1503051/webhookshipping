@@ -19,9 +19,8 @@ def webhook():
     print("Request:")
     print(json.dumps(req, indent=4))
 
-    #res = makeWebhookResult(req)
-    res ='test response'
- 
+    res = makeWebhookResult(req)
+    
     res = json.dumps(res, indent=4)
     print(res)
     r = make_response(res)
@@ -29,7 +28,7 @@ def webhook():
     return r
 
 def makeWebhookResult(req):
-    if req.get("result").get("action") != "shipping.cost":
+    if req.get("result").get("action") != "shippingcost":
         return {}
     result = req.get("result")
     parameters = result.get("parameters")
