@@ -34,9 +34,13 @@ def makeWebhookResult(req):
     parameters = result.get("parameters")
     zone = parameters.get("shipping-zone")
 
-    cost = {'Europe':100, 'North America':200, 'South America':300, 'Asia':400, 'Africa':500, 'India':600}
-
-    speech = "The cost of shipping to " + zone + " is " + str(cost[zone]) + " euros."
+    #cost = {'Europe':100, 'North America':200, 'South America':300, 'Asia':400, 'Africa':500, 'India':600}
+    
+    #speech = "The cost of shipping to " + zone + " is " + str(cost[zone]) + " euros."
+    
+    contact ={'1503051':'Grace Cheng #7585', '0203134':'#252', '1403047':'#7580'}
+    
+    speech = "The phone ext for  " + zone + " is " + str(contact[zone])
 
     print("Response:")
     print(speech)
