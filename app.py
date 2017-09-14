@@ -38,7 +38,7 @@ def makeWebhookResult(req):
     
     name=parameters.get("given-name")
     
-    contact ={'1503051':'Grace Cheng #7585', '0203134':'#252', '1403047':'#7580'}
+    contact ={'Grace':'Grace Cheng/1503051 #7585', 'Dahlong':'Dahlong Yang/0203134 #252', 'Customer':'Miss Fu/1403047 #7580'}
     
     speech = "The phone ext for  " + zone + " is " + str(contact[name])
 
