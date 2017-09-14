@@ -49,4 +49,8 @@ def weather(req):
     }
 
 if __name__ == '__main__':
-    APP.run(debug=True, host='0.0.0.0')
+    port = int(os.getenv('PORT', 5000))
+
+    print("Starting app on port %d" % port)
+
+    APP.run(debug=False, port=port, host='0.0.0.0')   
