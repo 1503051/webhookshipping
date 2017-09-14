@@ -1,7 +1,9 @@
 # !/usr/bin/env python
+import urllib
 import json
+import os
+
 from flask import Flask, request, make_response, jsonify
-from forecast import Forecast, validate_params
 
 APP = Flask(__name__)
 LOG = APP.logger
