@@ -7,11 +7,15 @@ import os
 from flask import Flask
 from flask import request
 from flask import make_response
-from pymongo import MongoClient
+from flask_pymongo import PyMongo
 
 # Flask app should start in global layout
 app = Flask(__name__)
 
+app.config['MONGO_DBNAME'] = 'hrvisual'
+app.config['MONGO_URI'] = 'mongodb://140.110.143.203:27017/hrvisual'
+
+mongo = PyMongo(app)
 
 @app.route('/webhook', methods=['POST'])
 def webhook():
@@ -45,15 +49,12 @@ def makeWebhookResult(req):
     if anytxt is not None:
         speech = "The contact information for " + anytxt + " is " + contact[anytxt]
     
-    
-    client = MongoClient()
-    #client = MongoClient("localhost", 27017)
-    client = MongoClient("mongodb://140.110.143.203:27017/")
-    db = client.hrvisual
-    collection = db.ORG_DEPT_EMP_2017
-    result=collection.find({"emp_number":"1503051"})[0]
-    for obj in result:
-        speech=obj['emp_name']
+     star = mongo.db.stars
+     s = star.find_one({'emp_number' : '1503051'})
+     if s:
+        speech = {'emp_number' : s['emp_number'], 'distance' : s['distance']}
+     else:
+        speech = "No such emp_number"
     
     print("Response:")
     print(speech)
