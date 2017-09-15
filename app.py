@@ -18,8 +18,11 @@ def get_one_star():
   db = client['hrvisual']
   collect=db['ORG_DEPT_EMP_2016']
   post1 = collect.find_one({'emp_number': '1503051'})
-  my_name = post1['emp_name']
-  return my_name
+  if post1 is None:    
+    return 'no record'
+  else:
+    return post1['emp_name']
+  
   
 @app.route('/webhook', methods=['POST'])
 def webhook():
