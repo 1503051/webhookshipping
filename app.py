@@ -11,8 +11,7 @@ from pymongo import MongoClient
 
 # Flask app should start in global layout
 app = Flask(__name__)
-#client = MongoClient('mongodb://140.110.143.203:27017')
-client = MongoClient('mongodb://192.168.169.128:27017')
+client = MongoClient('mongodb://localhost:27017')
 
 @app.route('/star', methods=['POST'])
 def get_one_star():
