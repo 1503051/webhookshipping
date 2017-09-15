@@ -49,11 +49,12 @@ def makeWebhookResult(req):
     if anytxt is not None:
         speech = "The contact information for " + anytxt + " is " + contact[anytxt]
     
-     star = mongo.db.stars
-     s = star.find_one({'emp_number' : '1503051'})
-     if s:
+    
+    star = mongo.db.stars
+    s = star.find_one({'emp_number' : '1503051'})
+    if s:
         speech = {'emp_number' : s['emp_number'], 'distance' : s['distance']}
-     else:
+    else:
         speech = "No such emp_number"
     
     print("Response:")
