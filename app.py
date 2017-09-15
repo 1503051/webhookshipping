@@ -17,6 +17,17 @@ app.config['MONGO_URI'] = 'mongodb://140.110.143.203:27017/hrvisual'
 
 mongo = PyMongo(app)
 
+@app.route('/star', methods=['GET'])
+def get_one_star():
+  star = mongo.db.stars
+  s = star.find_one({'emp_number' : '1503051'})
+  if s:
+    output = {'emp_number' : s['emp_number'], 'distance' : s['distance']}
+  else:
+    output = "No such emp_number"
+  return jsonify({'result' : output})
+
+
 @app.route('/webhook', methods=['POST'])
 def webhook():
     req = request.get_json(silent=True, force=True)
@@ -48,14 +59,6 @@ def makeWebhookResult(req):
     anytxt = parameters.get("any")
     if anytxt is not None:
         speech = "The contact information for " + anytxt + " is " + contact[anytxt]
-    
-    
-    star = mongo.db.stars
-    s = star.find_one({'emp_number' : '1503051'})
-    if s:
-        speech = {'emp_number' : s['emp_number'], 'distance' : s['distance']}
-    else:
-        speech = "No such emp_number"
     
     print("Response:")
     print(speech)
