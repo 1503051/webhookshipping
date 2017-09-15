@@ -7,24 +7,20 @@ import os
 from flask import Flask
 from flask import request
 from flask import make_response
-from flask_pymongo import PyMongo
+from pymongo import MongoClient
 
 # Flask app should start in global layout
 app = Flask(__name__)
-app.config['MONGO_DBNAME'] = 'hrvisual'
-app.config['MONGO_URI'] = 'mongodb://140.110.143.203:27017/hrvisual'
-mongo = PyMongo(app)
+client = MongoClient('mongodb://140.110.143.203:27017')
 
 @app.route('/star', methods=['GET'])
 def get_one_star():
-  s = mongo.db.ORG_DEPT_EMP_2017.find_one({'emp_number' : '1503051'})
-  if s:
-      return jsonify({"status": "ok", "data": s})
-  else:
-    return {"response": "no data found!"}
-  return jsonify({'result' : output})
-
-
+  db = client['hrvisual']
+  collect=db['ORG_DEPT_EMP_2017']
+  post1 = collect.find_one({'emp_number': '1503051'})
+  my_name = post1['emp_name']
+  return my_name
+  
 @app.route('/webhook', methods=['POST'])
 def webhook():
     req = request.get_json(silent=True, force=True)
