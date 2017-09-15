@@ -13,7 +13,7 @@ from pymongo import MongoClient
 app = Flask(__name__)
 client = MongoClient('mongodb://140.110.143.203:27017')
 
-@app.route('/star', methods=['GET'])
+@app.route('/star', methods=['POST'])
 def get_one_star():
   db = client['hrvisual']
   collect=db['ORG_DEPT_EMP_2017']
