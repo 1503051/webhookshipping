@@ -18,12 +18,11 @@ mongo = PyMongo(app)
 
 @app.route('/star', methods=['GET'])
 def get_one_star():
-  star = mongo.db.stars
-  s = star.find_one({'emp_number' : '1503051'})
+  s = mongo.db.ORG_DEPT_EMP_2017.find_one({'emp_number' : '1503051'})
   if s:
-    output = {'emp_number' : s['emp_number'], 'distance' : s['distance']}
+      return jsonify({"status": "ok", "data": s})
   else:
-    output = "No such emp_number"
+    return {"response": "no data found!"}
   return jsonify({'result' : output})
 
 
