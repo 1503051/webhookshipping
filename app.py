@@ -11,10 +11,9 @@ from flask_pymongo import PyMongo
 
 # Flask app should start in global layout
 app = Flask(__name__)
-
-app.config['MONGO_DBNAME'] = 'hrvisual'
-app.config['MONGO_URI'] = 'mongodb://140.110.143.203:27017/hrvisual'
-
+app.config['MONGO3_HOST'] = '140.110.143.203'
+app.config['MONGO3_PORT'] = 27017
+app.config['MONGO3_DBNAME'] = 'hrvisual'
 mongo = PyMongo(app)
 
 @app.route('/star', methods=['GET'])
